@@ -10,17 +10,6 @@
 - mounting efs partitions is super-easy and makes node-distribution of data effortless
 - nfs 4.1 is actually useful now-a-days
 	
-##### this is an optional backup process I'm working on using ephemeral keyring containers:
-> I will be packaging credentials within the ephemeral containers and taring them up using encryption 
-- build from a private Dockerfile with credentials stored in it, as environment variables.
-- build ephemeral container, which creates keyrings with GnuPG inside it.
-- export the keyring inside the container
-- export the container state
-- remove the container and srm delete the container state
-- use duplicity to move the container to S3 using KMS SSE and GPG to encrypt the tar file
-- store the keyring container's tarfile location in an etcd keystore or in boom
-- use a master password for all gpg keystores
-
 
 ### boom
 > shared devops commands in nice little groups, mounted on efs for simple usage across a big cluster
@@ -91,3 +80,17 @@ or do it without rancher-server
 provision the nginx LetsEncrypt helper container and attach it to the nginx-proxy instance
 
 	sudo docker run -d --restart always --name ssl-proxy -v /etc/nginx/ssl:/etc/nginx/certs:rw --volumes-from nginx-proxy -v /var/run/docker.sock:/var/run/docker.sock:ro thomastweets/docker-letsencrypt-nginx-proxy-companion
+
+
+# Backups
+
+##### this is an optional backup process I'm working on using ephemeral keyring containers:
+> I will be packaging credentials within the ephemeral containers and taring them up using encryption 
+- build from a private Dockerfile with credentials stored in it, as environment variables.
+- build ephemeral container, which creates keyrings with GnuPG inside it.
+- export the keyring inside the container
+- export the container state
+- remove the container and srm delete the container state
+- use duplicity to move the container to S3 using KMS SSE and GPG to encrypt the tar file
+- store the keyring container's tarfile location in an etcd keystore or in boom
+- use a master password for all gpg keystores
