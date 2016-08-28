@@ -94,3 +94,5 @@ provision the nginx LetsEncrypt helper container and attach it to the nginx-prox
 - use duplicity to move the container to S3 using KMS SSE and GPG to encrypt the tar file
 - store the keyring container's tarfile location in an etcd keystore or in boom
 - use a master password for all gpg keystores
+
+The above process is being automated and reverse-automated with my go-cli.  This allows me to store encrypted keyrings as GPG containers, within docker exports, using "profiles" and master-passwords.  Thus, you can manage and access a bunch of keyrings as virtual machines without ever dumping their contents locally or on-host.
