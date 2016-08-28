@@ -1,10 +1,14 @@
-### links
+### setup links
 > this process links the aws credentials for the cluster and the boom-ops commands from efs to the node home directory, thereby making it retardedly simple to use various commands and services across cluster
     
     sudo mount -t nfs4 -o nfsvers=4.1 us-east-1a.fs-4011dc09.efs.us-east-1.amazonaws.com:/ efs
     ln -s efs/.aws .aws
     ln -s efs/.boom .boom
 
+### EFS is awesome for a number of reasons.
+- you can separate certain files into directories based on their classifications or instance types
+- mounting efs partitions is super-easy and makes node-distribution of data effortless
+- nfs 4.1 is actually useful now-a-days
 	
 ##### this is an optional backup process I'm working on using ephemeral keyring containers:
 > I will be packaging credentials within the ephemeral containers and taring them up using encryption 
@@ -27,16 +31,21 @@
 	docker run -d --name=etcd quay.io/coreos/etcd # mozafukin pterodactyls
 	docker exec etcd /etcdctl set ptero dactyl
 	docker exec etcd /etcdctl get ptero 
-    # should print: dactyl
+	
+        # should print: dactyl
 	echo "alias ptero='docker exec etcd /etcdctl $1'" | tee -a ~/.bash_aliases
 
 	# now you can do:
 	pte set stega saurus
 	pte get stega
+	
 	# prints: saurus
 
-	# useful if you dig vim-spf13 jailed... you could volume mount with -v to make editing easier on host
 	
+	
+### vim-spf13
+> useful if you dig vim-spf13 jailed... you could volume mount with -v to make editing easier on host
+
 	docker pull --name vim-box yonidavidson/vim-box-spf13
 	alias vim="docker run -it yonidavidson/vim-box-spf13"
 	
