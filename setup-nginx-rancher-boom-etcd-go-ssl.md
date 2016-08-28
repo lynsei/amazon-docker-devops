@@ -17,44 +17,44 @@
 - store the keyring container's tarfile location in an etcd keystore or in boom
 - use a master password for all gpg keystores
 
- 
-	### boom
-	> shared devops commands in nice little groups, mounted on efs for simple usage across a big cluster
-	
-		gem install boom
-	 
-	### etcd
-		docker run -d --name=etcd quay.io/coreos/etcd # mozafukin pterodactyls
-		docker exec etcd /etcdctl set ptero dactyl
-		docker exec etcd /etcdctl get ptero 
-	    # should print: dactyl
-		echo "alias ptero='docker exec etcd /etcdctl $1'" | tee -a ~/.bash_aliases
-	
-		# now you can do:
-		pte set stega saurus
-		pte get stega
-		# prints: saurus
-	
-		# useful if you dig vim-spf13 jailed... you could volume mount with -v to make editing easier on host
-		
-		docker pull --name vim-box yonidavidson/vim-box-spf13
-		alias vim="docker run -it yonidavidson/vim-box-spf13"
-		
-		# sometimes you do not want spf13 in a docker (actually most times)
-		curl http://j.mp/spf13-vim3 -L -o - | sh
 
+### boom
+> shared devops commands in nice little groups, mounted on efs for simple usage across a big cluster
+
+	gem install boom
+ 
+### etcd
+	docker run -d --name=etcd quay.io/coreos/etcd # mozafukin pterodactyls
+	docker exec etcd /etcdctl set ptero dactyl
+	docker exec etcd /etcdctl get ptero 
+    # should print: dactyl
+	echo "alias ptero='docker exec etcd /etcdctl $1'" | tee -a ~/.bash_aliases
+
+	# now you can do:
+	pte set stega saurus
+	pte get stega
+	# prints: saurus
+
+	# useful if you dig vim-spf13 jailed... you could volume mount with -v to make editing easier on host
 	
-	# optionally install go-lang
-		#!/bin/bash
-		bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-		[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-		sudo apt-get install bison
-		exit; #logout
-		gvm version
-		gvm listall
-		gvm install go1.4
-		gvm use go1.4
-		go version
+	docker pull --name vim-box yonidavidson/vim-box-spf13
+	alias vim="docker run -it yonidavidson/vim-box-spf13"
+	
+	# sometimes you do not want spf13 in a docker (actually most times)
+	curl http://j.mp/spf13-vim3 -L -o - | sh
+
+
+# optionally install go-lang
+	#!/bin/bash
+	bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+	[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+	sudo apt-get install bison
+	exit; #logout
+	gvm version
+	gvm listall
+	gvm install go1.4
+	gvm use go1.4
+	go version
 	
 # nginx rProxy + SSL with Rancher
 > this makes it a very quick process indeed to set up websites hosted on SSL using whatever docker service you want
