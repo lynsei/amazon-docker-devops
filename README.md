@@ -1,7 +1,7 @@
 # amazon-docker-devops
 *"my way to do devops on amazon aws using docker."*
 
-> this is an ongoing project that is essentially a guidebook on how I do devops related tasks, in supplement to the dockistry project.  Dockistry is in pre-alpha, but these command guides are what I use to design the go-lang code used in dockistry automated events.
+> this is an ongoing project that is essentially a guidebook on how I do devops related tasks, in supplement to the [dockistry project](https://github.com/dockistry).  Dockistry is in pre-alpha, but these command guides are what I use to design the go-lang code used in dockistry automated events.
 
 ## [chapter 1](https://github.com/forktheweb/amazon-docker-devops/blob/master/setup-ubuntu.md)
 - setup an ubuntu trusty instance
