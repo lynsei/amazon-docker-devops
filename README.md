@@ -12,7 +12,11 @@
 
 ## [chapter 2](https://github.com/forktheweb/amazon-docker-devops/blob/master/setup-nginx-rancher-boom-etcd-go-ssl.md)
 - link your cross-cluster credentials and cluster-management commands
-- a backup process for keyrings
 - command and key/value management
 - setting up websites on SSL
 - setting up rancher management
+
+## [chapter 3](https://github.com/forktheweb/amazon-docker-devops/blob/master/setup-gpg.md)
+- how to generate a gpg keyring and private key storage
+- how to create a docker container-based keyring
+- using profiles with Amazon's Key Management Storage uing IAM
