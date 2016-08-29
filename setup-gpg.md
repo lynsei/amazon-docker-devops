@@ -263,10 +263,10 @@ printf " \
  - you might use etcd or boom for storing & managing or encrypte container key locations
 
  
-# I also create an aws.sh file that uses the AWS CLI, so I don't need to install it.
-- this allows me to be lazy, which I'm great at!
+As a personal preferenc, I create an aws.sh file that uses a docker containerized AWS CLI, so I don't need to install it.
+This allows me to be lazy, which I'm great at!   ;)
 
-Here's an example of how I might script an aws cli container for usage:
+Here's an example of how I might script an AWS-CLI.sh container for usage:
  
 ```
 	#!/bin/bash
@@ -279,7 +279,7 @@ Here's an example of how I might script an aws cli container for usage:
 	sudo docker run -v /home/ubuntu/efs/cli:/root/.aws/ --env-file=$AWS_CONFIG_ENV $IMAGE /bin/bash -c "$1"
 ```
  
- - Sometimes I use "[saws](https://github.com/donnemartin/saws)" instead of "aws" because it's more progressively truthful
+> Sometimes I use "[saws](https://github.com/donnemartin/saws)" instead of "aws" because it's more progressively truthful
 
 
 ##### Set it up like so:
