@@ -4,10 +4,13 @@ Let's be brave boys and girls:
 
 Download gpg-keygen.py python script and run it.  It's slow but it's python after all.  Don't you know that slow things are good with encryption because that means you gather entropy!?
 
+```
 $ cd ~/; wget https://raw.githubusercontent.com/object-code/gpg-keygen/master/gpg-keygen.py; 
+```
 
+Deploy GPG using nifty python scripting methods:
 
-## deploy gpg using latest python scripting methods from gpg-keygen 
+```
 $ sudo ~/gpg-keygen.py --t /root/.gnupg/whomever --step generateMasterKey  \
       --master-key-length 4096 \   
       --master-key-type RSA  \
@@ -15,7 +18,7 @@ $ sudo ~/gpg-keygen.py --t /root/.gnupg/whomever --step generateMasterKey  \
       --identity-comment Whatever  \
       --identity-name "Bob Dobbs"  \
       --master-key-expire 0
-      
+```      
       
 > note:  4096 keys pose no real security advantage, but nevertheless.
 
