@@ -208,18 +208,19 @@ Be smart and don't make kittens cry by storing your keys insecurly.
  
 
 ### Setup your credentials:
- 
-- propagate a profile based test.credentials for aws
-- so you can then reference it when calling sync
+
+> note:  I'm using an EFS mount in this example, which you don't need to do.
+
 ```
 printf " \
 [profile devops]  \n \
 	region = us-west-1  \n \
 	aws_access_key_id = **************** \n \
 	aws_secret_access_key = *****************************************\n " \
-| tee -a ./credentials
+| tee -a /home/ubuntu/EFS/.aws/credentials
 ```
 ### Start with:
+
  - ubuntu with docker installed
  - you might use etcd or boom for storing & managing or encrypte container key locations
 
@@ -241,43 +242,45 @@ Here's an example of how I might script an aws cli container for usage:
 ```
  
  - Sometimes I use "[saws](https://github.com/donnemartin/saws)" instead of "aws" because it's more progressively truthful
- - set it up like so:
+
+
+##### Set it up like so:
  
-saws> aws kms create-key --profile devops --region us-west-1   # use appropriate credential profile & region
+
 ````
-				{
-				    "KeyMetadata": {
-				        "KeyId": "kja8a08f9fha0fha0f0a9ij0as9jd0as", # I pasted gibberish for effect
-				        "Description": "", 
-				        "Enabled": true, 
-				        "KeyUsage": "ENCRYPT_DECRYPT", 
-				        "KeyState": "Enabled", 
-				        "CreationDate": 1461061812.742,  # creation date
-				        "Arn": "arn:aws:kms:us-west-11010101:key/0f0faaaa-e1a2-42d1-9c71-a373rrr3asss5f",  # gibberish
-				        "AWSAccountId": "929293844214112" # gibberish
-				    }
-				}
-```
-```
+saws> aws kms create-key --profile devops --region us-west-1   # use appropriate credential profile & region
+	{
+	    "KeyMetadata": {
+	        "KeyId": "kja8a08f9fha0fha0f0a9ij0as9jd0as", # I pasted gibberish for effect
+	        "Description": "", 
+	        "Enabled": true, 
+	        "KeyUsage": "ENCRYPT_DECRYPT", 
+	        "KeyState": "Enabled", 
+	        "CreationDate": 1461061812.742,  # creation date
+	        "Arn": "arn:aws:kms:us-west-11010101:key/0f0faaaa-e1a2-42d1-9c71-a373rrr3asss5f",  # gibberish
+	        "AWSAccountId": "929293844214112" # gibberish
+	    }
+	}
+ 
 saws> aws kms list-keys --output text --region us-west-1  # lists the key I just created
 
   KEYS    arn:aws:kms:us-west-1:929293844214112:key/0f0faaaa-e1a2-42d1-9c71-a373rrr3asss  0f0faaaa-e1a2-42d1-9c71-a373rrr3asss
 ```
-# now I assign my master key to alias name "devopsWest" using the correct profile & region & targetKey data
+
+Now I assign my master key to alias name "devopsWest" using the correct profile & region & targetKey data
+
+```
 saws> aws kms create-alias --alias-name alias/devopsWest --profile devops --region us-west-1 --target-key-id 0f0faaaa-e1a2-42d1-9c71-a373rrr3asssf
 ```
 
-# validate the alias is listed
+##### Validate the alias is listed:
 
 ```
 saws> aws kms list-aliases --output text --profile devops --region us-west-1
 ALIASES arn:aws:kms:us-west-1:286824693784:alias/devopsWest     alias/devopsWest        0f0faaaa-e1a2-42d1-9c71-a373rrr3asssf
 ```
 
- 
-
-
-# IN SUMMARY:
+# IAM Profiles with KMS
 
 Using IAM profiles like the above allows you to perform key-sync commands with limited IAM profiles, thereby restricting and limiting access through your AWS resources to only KMS and EC2 (for instance).
 
@@ -286,14 +289,17 @@ There you can assign users and administrators to particular keys in various regi
 
 `arn:aws:kms:us-east-1:212312384:key/5653271a-a406-4652-ac75-9def444128b2b7`
 
-# now you can SSE encrypt whatever you want, with the KMS key
+> Now you can SSE encrypt whatever you want, with the KMS key, like so:
+
 ```
 $  printf "\n 
 	sudo sh /home/ubuntu/.scripts/dockers/aws.sh \
 	aws s3 sync ~/file_I_want_to_encrypt s3://yourBucketName  --profile profileName --sse aws:kms --sse-kms-key keyName 
 ' | boom pterops s3up.hist $1 \n " | sh  # note: boom just stores the command for future reference.
      ```
-# srm delete using openbsd PUFFER  -P ```
+##### SRM with Openbsd PUFFER 
+
+```
 $  sudo srm -fm -P ~/.bash_history  
 ```
 # now
