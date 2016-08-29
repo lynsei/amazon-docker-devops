@@ -334,12 +334,26 @@ $  printf "\n
 	sudo sh /home/ubuntu/.scripts/dockers/aws.sh \
 	aws s3 sync ~/file_I_want_to_encrypt s3://yourBucketName  --profile profileName --sse aws:kms --sse-kms-key keyName 
 ' | boom pterops s3up.hist $1 \n " | sh  # note: boom just stores the command for future reference.
-     ```
+```
 ##### SRM with Openbsd PUFFER 
 
 ```
 $  sudo srm -fm -P ~/.bash_history  
 ```
 
+# Backups
 
-Congratulations, you win.
+##### this is an optional backup process I'm working on using ephemeral keyring containers:
+> I will be packaging credentials within the ephemeral containers and taring them up using encryption 
+- build from a private Dockerfile with credentials stored in it, as environment variables.
+- build ephemeral container, which creates keyrings with GnuPG inside it.
+- export the keyring inside the container
+- export the container state
+- remove the container and srm delete the container state
+- use duplicity to move the container to S3 using KMS SSE and GPG to encrypt the tar file
+- store the keyring container's tarfile location in an etcd keystore or in boom
+- use a master password for all gpg keystores
+
+The above process is being automated and reverse-automated with my go-cli.  This allows me to store encrypted keyrings as GPG containers, within docker exports, using "profiles" and master-passwords.  Thus, you can manage and access a bunch of keyrings as virtual machines without ever dumping their contents locally or on-host.
+
+> **Congratulations, you win.**
