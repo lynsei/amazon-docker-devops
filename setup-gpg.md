@@ -17,7 +17,7 @@ $ sudo ~/gpg-keygen.py --t /root/.gnupg/whomever --step generateMasterKey  \
       --master-key-expire 0
       
       
-> note:  4096 keys aren't necessary, but I like making things unnecessarily difficult, so :)
+> note:  4096 keys pose no real security advantage, but nevertheless.
 
 -  Temporary directory for sensitive data will be '~/.gnupg/whomever'. 
 -  Make sure you delete using 'srm' (secure-delete) once it's not needed! 
