@@ -1,4 +1,9 @@
-# download gpg-keygen.py python script and run it.  it's slow but it creates your gpg profile the correct way, and that's why it's slow
+# Setup GPG
+
+Let's be brave boys and girls:
+
+Download gpg-keygen.py python script and run it.  It's slow but it's python after all.  Don't you know that slow things are good with encryption because that means you gather entropy!?
+
 $ cd ~/; wget https://raw.githubusercontent.com/object-code/gpg-keygen/master/gpg-keygen.py; 
 
 
@@ -12,12 +17,14 @@ $ sudo ~/gpg-keygen.py --t /root/.gnupg/whomever --step generateMasterKey  \
       --master-key-expire 0
       
       
-## note:  4096 keys aren't necessary, but I like making things unnecessarily difficult, so :)
+> note:  4096 keys aren't necessary, but I like making things unnecessarily difficult, so :)
 
-#  Temporary directory for sensitive data will be '~/.gnupg/whomever'. 
-#  Make sure you delete using 'srm' (secure-delete) once it's not needed! 
+-  Temporary directory for sensitive data will be '~/.gnupg/whomever'. 
+-  Make sure you delete using 'srm' (secure-delete) once it's not needed! 
 
 # tidy up files
+
+```
 $ sudo mv /root/.gnupg/whomever/tmp/gpg-homedir/pubring.gpg ~/root/.gnupg/pubring.gpg 
 $ sudo mv /root/.gnupg/whomever/tmp/gpg-homedir/pubring.gpg ~/root/.gnupg/secring.gpg
 $ sudo mv /root/.gnupg/whomever/tmp/gpg-homedir/gpg.conf ~/root/.gnupg/gpg.conf
@@ -121,9 +128,15 @@ gpg> showpref
      Features: MDC, Keyserver no-modify
 
 gpg> quit
- 
-# optionally export your public key as an armored ascii text blurb to put at the bottom of your emails (and log it in a file)
+```
 
+
+# optionally 
+
+Let's export your public key as an armored ascii text blurb to put at the bottom of your emails (and log it in a file).
+Note:  Do *not* store your private key locally.  Ideally, you do this inside a docker container, then export the container and encrypt it for storage using KMS and (if you want to be fancy) with Duplicity GPG for storage on an external S3 account (or some other cloud).
+
+```
 $ sudo gpg --export --armor derp@gmail.com >> ~/.gpgpublic        
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1
@@ -154,6 +167,7 @@ lM8SgxFIn3bI4kt8MZ1ZsAo4Dl60o5HNw2JYQ18TwBBKbcN+2nNzdjXJbil5Q07r
 KN1eNgyVmohN6qniZdZqvENi9XxyllSSDvEaXyOe7Y9Z2ZxNTPGbr6xndVNc+x2y
 =Dyl8
 -----END PGP PUBLIC KEY BLOCK-----
+```
 
 # optionally list keys
 $ sudo gpg --list-keys --verbose --fingerprint  >> ~/.gpgpublic
