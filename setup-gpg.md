@@ -170,6 +170,7 @@ KN1eNgyVmohN6qniZdZqvENi9XxyllSSDvEaXyOe7Y9Z2ZxNTPGbr6xndVNc+x2y
 ```
 
 # optionally list keys
+```
 $ sudo gpg --list-keys --verbose --fingerprint  >> ~/.gpgpublic
 gpg: using PGP trust model
 /root/.gnupg/pubring.gpg
@@ -177,46 +178,39 @@ gpg: using PGP trust model
 pub   4096R/18XS8AE3 2016-02-25
       Key fingerprint = 50A8 A9EX F636 8DBA FC54  D208 3162 82A8 18EF 8AE1
 uid                  "Bob Dobbs  <derp@gmail.com>"
+```
+
+NOTE:  You can also choose to publish your public key on a website like https://pgp.mit.edu/  then just link to the key in the footer of your e-mails instead of publishing a long armored string
 
 
-# ----- NOTE:  You can also choose to publish your public key on a website like https://pgp.mit.edu/  
-# ------        then just link to the key in the footer of your e-mails instead of publishing a long armored string
-
-
-#---- SECRET KEY EXPORT AS ARMORED STRING:
+##### SECRET KEY EXPORT AS ARMORED STRING:
+```
 sudo gpg --export-secret-keys -a 22EX8AEA > srm_delete_me.asc
+```
+- Wherever you choose to store this, make sure it is 100% disassociated and take care in how your store the file
+- Only store your private key on media you absolutely control and that is both obscured and secured physically or in a private cloud area that you store the location of securely, and encrypt using a master password.
 
-#---- Wherever you choose to store this, make sure it is 100% disassociated and take care in how your store the file
-#---- Only store your private key on media you absolutely control and that is both obscured and secured physically
-
-# once you've copied your keys to an external disk or smartcard, srm delete the secret keys please (don't forget!!!!)
+Once you've copied your keys to an external disk or smartcard, SRM delete the secret keys and bash history please (don't forget!!!!)
 sudo srm /root/.gnupg/secring.gpg
 
 
-# why delete your private keys securely and keep them somewhere you bring with you or hide?
+Why delete your private keys securely and keep them somewhere you bring with you or hide?
 
-# * they cannot be stolent or hacked this way
-# * I won't make fun of your for going through all this trouble for nothing
+* They cannot be stolent or hacked this way
+* You won't have gone through all this trouble for nothing.
 
-# 
-# an alternative is to store these files in an encrypted key/value mount using an adapter through json.
-# I am currently making software that stores private keys in an encrypted database with keys by KMS, and allows you to retreive them based on IAM roles
-#
-#
-# final thought:
-# Once retrieved, you can convert the RSA certs to their corresponding ssh hashes and they can be used in web apps.
-# >>> CHO
-
+Be smart and don't make kittens cry by storing your keys insecurly.
+ 
 
 ## Amazon KMS
 
-> let's use KMS for key profiling, cause you should never store keys locally 
+> let's use KMS for key profiling and storage.  
  
 
-Setup your credentials:
+### Setup your credentials:
  
-# propagate a profile based test.credentials for aws
-# so you can then reference it when calling sync
+- propagate a profile based test.credentials for aws
+- so you can then reference it when calling sync
 ```
 printf " \
 [profile devops]  \n \
@@ -225,7 +219,7 @@ printf " \
 	aws_secret_access_key = *****************************************\n " \
 | tee -a ./credentials
 ```
-### what you should start with:
+### Start with:
  - ubuntu with docker installed
  - you might use etcd or boom for storing & managing or encrypte container key locations
 
