@@ -25,13 +25,17 @@ $ sudo ~/gpg-keygen.py --t /root/.gnupg/whomever --step generateMasterKey  \
 -  Temporary directory for sensitive data will be '~/.gnupg/whomever'. 
 -  Make sure you delete using 'srm' (secure-delete) once it's not needed! 
 
-# tidy up files
+# Tidy Up
 
 ```
 $ sudo mv /root/.gnupg/whomever/tmp/gpg-homedir/pubring.gpg ~/root/.gnupg/pubring.gpg 
 $ sudo mv /root/.gnupg/whomever/tmp/gpg-homedir/pubring.gpg ~/root/.gnupg/secring.gpg
 $ sudo mv /root/.gnupg/whomever/tmp/gpg-homedir/gpg.conf ~/root/.gnupg/gpg.conf
 $ sudo mv /root/.gnupg/whomever/tmp/gpg-homedir/trustdb.gpg ~/root/.gnupg/trustdb.gpg
+```
+
+### Export your public key:
+```
 $ sudo gpg --armor --export derp@gmail.com
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -64,7 +68,11 @@ KN1eNgyVmohN6qniZdZqvENi9XxyllSSDvEaXyOe7Y9Z2ZxNTPGbr6xndVNc+x2x
 =Dyl8
 -----END PGP PUBLIC KEY BLOCK-----
 
+```
 
+
+### Edit your keyring:
+```
 $ sudo gpg --interactive --edit-key derp@gmail.com
  
 $ sudo gpg --list-keys
@@ -75,18 +83,30 @@ uid                  Bob Dobbs <derp@gmail.com>
 
 gpg> help
 
+```
+
+
+### Assign a master pass:
+```
 gpg> passwd
 This key is not protected.
 Enter the new passphrase for this secret key.
 .... (add in the password you want)
-                   
+       
+```
+
+### Publish your Public Key
+```                   
 gpg> keyserver
 Enter your preferred keyserver URL: https://pgp.mit.edu/
 
 You need a passphrase to unlock the secret key for
 user: "Bob Dobbs  <derp@gmail.com>"
 4096-bit RSA key, ID 18EF8XSE3, created 2016-02-25
+```
 
+### Add photo of Kittens
+```
  
 gpg> addphoto
 
@@ -102,7 +122,10 @@ gpg: no photo viewer set
 gpg: unable to display photo ID!
 Is this photo correct (y/N/q)? y
 
+```
 
+### List your keys
+```
 gpg> list
 
 pub  4096R/18EF8AE3  created: 2016-02-25  expires: never       usage: SC  
@@ -110,6 +133,13 @@ pub  4096R/18EF8AE3  created: 2016-02-25  expires: never       usage: SC
 [ultimate] (1). Bob Dobbs  <derp@gmail.com>
 [ unknown] (2)  [jpeg image of size 15508]
 
+
+```
+
+### Export them
+> Note: This is where you need to care.  Always store on removable media or externally at secret location.  If you store the location, encrypt it.  If you use Amazon, store keys with KMS and use SSE EBS block stores.  If you want to go overboard, store keyrings in encrypted docker containers.  (I'm writing software to handle that and will be adding more tutorials soon)
+
+```
 gpg> export
 
 
@@ -134,10 +164,10 @@ gpg> quit
 ```
 
 
-# optionally 
+# Armored ASC Export 
 
 Let's export your public key as an armored ascii text blurb to put at the bottom of your emails (and log it in a file).
-Note:  Do *not* store your private key locally.  Ideally, you do this inside a docker container, then export the container and encrypt it for storage using KMS and (if you want to be fancy) with Duplicity GPG for storage on an external S3 account (or some other cloud).
+Note:  Again, do *not* store your private key locally.  
 
 ```
 $ sudo gpg --export --armor derp@gmail.com >> ~/.gpgpublic        
@@ -172,7 +202,8 @@ KN1eNgyVmohN6qniZdZqvENi9XxyllSSDvEaXyOe7Y9Z2ZxNTPGbr6xndVNc+x2y
 -----END PGP PUBLIC KEY BLOCK-----
 ```
 
-# optionally list keys
+##### another way to list keys:
+
 ```
 $ sudo gpg --list-keys --verbose --fingerprint  >> ~/.gpgpublic
 gpg: using PGP trust model
@@ -186,12 +217,16 @@ uid                  "Bob Dobbs  <derp@gmail.com>"
 NOTE:  You can also choose to publish your public key on a website like https://pgp.mit.edu/  then just link to the key in the footer of your e-mails instead of publishing a long armored string
 
 
-##### SECRET KEY EXPORT AS ARMORED STRING:
+# Export Keys
+> This is a bad practice, and NEVER do it locally.  Only export keys on a remote secret container or physically secured removable media.  Always encrypt them for storage using a master password.  Rotate your passwords. 
+
 ```
 sudo gpg --export-secret-keys -a 22EX8AEA > srm_delete_me.asc
 ```
 - Wherever you choose to store this, make sure it is 100% disassociated and take care in how your store the file
 - Only store your private key on media you absolutely control and that is both obscured and secured physically or in a private cloud area that you store the location of securely, and encrypt using a master password.
+
+# Delete your trail
 
 Once you've copied your keys to an external disk or smartcard, SRM delete the secret keys and bash history please (don't forget!!!!)
 sudo srm /root/.gnupg/secring.gpg
