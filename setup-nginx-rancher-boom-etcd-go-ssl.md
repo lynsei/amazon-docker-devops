@@ -81,18 +81,3 @@ provision the nginx LetsEncrypt helper container and attach it to the nginx-prox
 
 	sudo docker run -d --restart always --name ssl-proxy -v /etc/nginx/ssl:/etc/nginx/certs:rw --volumes-from nginx-proxy -v /var/run/docker.sock:/var/run/docker.sock:ro thomastweets/docker-letsencrypt-nginx-proxy-companion
 
-
-# Backups
-
-##### this is an optional backup process I'm working on using ephemeral keyring containers:
-> I will be packaging credentials within the ephemeral containers and taring them up using encryption 
-- build from a private Dockerfile with credentials stored in it, as environment variables.
-- build ephemeral container, which creates keyrings with GnuPG inside it.
-- export the keyring inside the container
-- export the container state
-- remove the container and srm delete the container state
-- use duplicity to move the container to S3 using KMS SSE and GPG to encrypt the tar file
-- store the keyring container's tarfile location in an etcd keystore or in boom
-- use a master password for all gpg keystores
-
-The above process is being automated and reverse-automated with my go-cli.  This allows me to store encrypted keyrings as GPG containers, within docker exports, using "profiles" and master-passwords.  Thus, you can manage and access a bunch of keyrings as virtual machines without ever dumping their contents locally or on-host.
