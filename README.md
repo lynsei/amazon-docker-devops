@@ -20,3 +20,29 @@
 - how to generate a gpg keyring and private key storage
 - how to create a docker container-based keyring
 - using profiles with Amazon's Key Management Storage uing IAM
+
+> this project is a work in progress, here's the todos:
+
+- [] chapter 4
+  - [] duplicty using gpg encryption for backups
+  - [] using bup for hot backups
+  - [] temporary containers for development
+  - [] strategies for dealing with ephemeral (i.e.- not volume mounted) docker containers
+  - [] strategies for dealing with volume mounted containers
+  - [] using docker-compose 2.0 spec
+
+- [] chapter 5
+  - [] RDS and Aurora data sync strategies
+  - [] Load-balancing using L7 and Rancher
+  - [] Service discovery using Consul
+  - [] Automatic health checks and node-load distribution with HA Proxy and Nginx
+
+- [] chapter 6
+  - [] Using RethinkDB to Shard LOTS of data
+  - [] Using Citus/Postgres clusters
+
+- [] chapter 7
+  - [] How to build an Angular SPA using Docker containers
+  - [] How to build an API using Docker containers
+  - [] How to build a React Native app using the same API
+  - [] How to create a code pipeline and automate testing with Travis CI
